@@ -3,6 +3,7 @@
 {% block title %}Index{% endblock %}
 {% block content %}
 <h1>Liste des manuscrits de la bibliothèque du Patrimoine de Clermont Auvergne Métropole</h1>
+<a href="create.php"> Ajouter </a>
 <table>
     <tr>
         <th>Référence</th>
@@ -12,11 +13,19 @@
     </tr>
     {% for document in list %}
     <tr>
-        <td>{{ document.objectid }}</td>
-        <td>{{ document.titre }}</td>
-        <td>{{ document.auteur }}</td>
-        <td><a href="get.php?id=1">voir</a>&nbsp;/&nbsp;<a href="edit.php?id=1">éditer</a>&nbsp;/&nbsp;<a href="delete.php?id=1">supprimer</a></td>
+        <td>{{ document['objectid'] }}</td>
+        <td>{{ document['titre'] }}</td>
+        <td>{{ document['auteur'] }}</td>
+        <td><a href="get.php?id={{document['_id']}}">voir</a>&nbsp;/&nbsp;<a href="edit.php?id={{document['_id']}}">éditer</a>&nbsp;/&nbsp;<a href="delete.php?id={{document['_id']}}">supprimer</a></td>
     </tr>
     {% endfor %}
 </table>
+    Page
+
+    <a href="app.php?page=1">1</a>
+    {% for i in max(2, (page-2))..min((page+3), nbPage-1) %}
+        <a href="app.php?page={{i}}">{{i}}</a>
+    {% endfor %}
+    <a href="app.php?page={{nbPage}}">{{ nbPage }}</a>
+
 {% endblock %}

@@ -2,6 +2,7 @@
 
 include_once '../init.php';
 
+use MongoDB\BSON\ObjectId;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -13,6 +14,19 @@ $manager = getMongoDbManager();
 
 if (!empty($_POST)) {
     // @todo coder l'enregistrement d'un nouveau livre en lisant le contenu de $_POST
+    $doc = [
+        "titre" => $_POST["title"],
+        "auteur" => $_POST["author"],
+        "edition" => null,
+        "langue" => null,
+        "cote" => null,
+        "siecle" => $_POST["century"],
+        "objectid" => null
+    ];
+    $manager->selectCollection('tp')->insertOne($doc);
+
+    header('Location: /index.php');
+    exit;
 } else {
 // render template
     try {

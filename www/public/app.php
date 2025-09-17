@@ -11,17 +11,18 @@ $manager = getMongoDbManager();
 
 // @todo implementez la récupération des données dans la variable $list
 // petite aide : https://github.com/VSG24/mongodb-php-examples
-$list = [];
-$books = $manager->selectCollection('tp')->find([])->toArray();
-foreach ($books as $book) {
-    $list[] = [$book['objectid'], $book['titre'], $book['auteur']];
-}
+$pageSize = 20;
+$count = $manager->selectCollection('tp')->countDocuments();
+$page = (int)($_GET['page'] ?? 1);
+$nbPage = (int)ceil($count / $pageSize);
 
-//$list = [['name' => 'test']];
+$list = $manager->selectCollection('tp')->find([], [ 'limit' => $pageSize, 'skip' => $pageSize * ($page-1)])->toArray();
+
+
 
 // render template
 try {
-    echo $twig->render('index.html.twig', ['list' => $list]);
+    echo $twig->render('index.html.twig', ['list' => $list, 'nbPage' => $nbPage, 'page' => $page]);
 } catch (LoaderError|RuntimeError|SyntaxError $e) {
     echo $e->getMessage();
 }
