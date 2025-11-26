@@ -3,18 +3,33 @@
 {% block title %}Modification d'un livre{% endblock %}
 {% block content %}
 <p>&larr;&nbsp;<a href="/index.php">Retourner à la liste</a></p>
-<form action="/update.php?id={{entity['_id']}}" method="post">
+<form action="/update.php?id={{entity['_id']}}&page={{page}}" method="post">
         <input type="hidden" id="id" name="id" value="{{ entity._id }}">
 
-        <label for="title">Titre :</label>
-        <input type="text" id="title" name="title" value="{{entity["titre"]}}" size="100">
+        <label for="titre">Titre :</label>
+        <input type="text" id="titre" name="titre" value="{{entity["titre"]}}" size="100">
 
-        <label for="author">Auteur :</label>
-        <input type="text" id="author" name="author" size="50" value="{{ entity["auteur"]}}">
+        <label for="auteur">Auteur :</label>
+        <input type="text" id="auteur" name="auteur" size="50" value="{{ entity["auteur"]}}">
 
-        <label for="author">Siècle :</label>
-        <input type="number" id="century" name="century" value="{{  entity["siecle"] }}">
+        <label for="siecle">Siècle :</label>
+        <input type="number" id="siecle" name="siecle" value="{{  entity["siecle"] }}">
+
+        <label for="edition">Edition :</label>
+        <input type="text" id="edition" name="edition" size="50" value="{{ entity["edition"] }}">
+
+        <label for="langue">Langue :</label>
+        <input type="text" id="langue" name="langue" size="50" value="{{ entity["langue"] }}">
+
+        <label for="cote">Cote :</label>
+        <input type="text" id="cote" name="cote" size="50" value="{{ entity["cote"] }}">
+
+        <label for="objectid">Référence :</label>
+        <input type="text" id="objectid" name="objectid" size="50" value="{{  entity["objectid"] }}">
 
         <button type="submit">Enregistrer</button>
 </form>
 {% endblock %}
+
+
+

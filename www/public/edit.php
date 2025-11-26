@@ -13,7 +13,7 @@ $manager = getMongoDbManager();
 $entity = $manager->selectCollection('tp')->findOne(['_id' => new ObjectId($_GET['id'])]);
 
 try {
-    echo $twig->render('update.html.twig', ['entity' => $entity]);
+    echo $twig->render('update.html.twig', ['entity' => $entity, 'page' => ($_GET['page'] ?? 1)]);
 } catch (LoaderError|RuntimeError|SyntaxError $e) {
     echo $e->getMessage();
 }

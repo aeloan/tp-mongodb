@@ -17,11 +17,11 @@ if (!empty($_POST)) {
     $doc = [
         "titre" => $_POST["title"],
         "auteur" => $_POST["author"],
-        "edition" => null,
-        "langue" => null,
-        "cote" => null,
+        "edition" => $_POST["edition"],
+        "langue" => $_POST["langue"],
+        "cote" => $_POST["cote"],
         "siecle" => $_POST["century"],
-        "objectid" => null
+        "objectid" => $_POST["objectid"],
     ];
     $manager->selectCollection('tp')->insertOne($doc);
 

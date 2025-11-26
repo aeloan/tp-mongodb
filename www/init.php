@@ -10,6 +10,9 @@ use MongoDB\Database;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+// Prepend a base path if Predis is not available in your "include_path".
+
+
 // env configuration
 (Dotenv\Dotenv::createImmutable(__DIR__))->load();
 
@@ -25,3 +28,11 @@ function getMongoDbManager(): Database
     return $client->selectDatabase($_ENV['MDB_DB']);
 }
 
+function getRedisClient():  ?Predis\Client
+{
+    return $_ENV['REDIS_ENABLE'] ? new Predis\Client([
+        'scheme' => 'tcp',
+        'host'   => $_ENV['REDIS_HOST'],
+        'port'   => $_ENV['REDIS_PORT'],
+    ]) : null;
+}

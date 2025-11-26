@@ -16,7 +16,7 @@
         <td>{{ document['objectid'] }}</td>
         <td>{{ document['titre'] }}</td>
         <td>{{ document['auteur'] }}</td>
-        <td><a href="get.php?id={{document['_id']}}">voir</a>&nbsp;/&nbsp;<a href="edit.php?id={{document['_id']}}">éditer</a>&nbsp;/&nbsp;<a href="delete.php?id={{document['_id']}}">supprimer</a></td>
+        <td><a href="get.php?id={{document['_id']}}&page={{page}}">voir</a>&nbsp;/&nbsp;<a href="edit.php?id={{document['_id']}}&page={{page}}">éditer</a>&nbsp;/&nbsp;<a href="delete.php?id={{document['_id']}}&page={{page}}">supprimer</a></td>
     </tr>
     {% endfor %}
 </table>
