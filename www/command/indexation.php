@@ -45,10 +45,8 @@ foreach ($list as $document) {
     if ($i % 1000 == 0) {
         $responses = $client->bulk($params);
 
-        // erase the old bulk request
         $params = ['body' => []];
 
-        // unset the bulk response when you are done to save memory
         unset($responses);
     }
 
