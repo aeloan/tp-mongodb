@@ -9,6 +9,7 @@ require_once __DIR__.'/vendor/autoload.php';
 use MongoDB\Database;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use Elastic\Elasticsearch\ClientBuilder;
 
 // Prepend a base path if Predis is not available in your "include_path".
 
@@ -35,4 +36,11 @@ function getRedisClient():  ?Predis\Client
         'host'   => $_ENV['REDIS_HOST'],
         'port'   => $_ENV['REDIS_PORT'],
     ]) : null;
+}
+
+function getElasticSearchClient(): \Elastic\Elasticsearch\Client
+{
+    return ClientBuilder::create()
+        ->setHosts(["http://" . $_ENV['ELASTIC_HOST'] . ':' . $_ENV['ELASTIC_PORT']])
+        ->build();
 }

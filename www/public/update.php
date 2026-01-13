@@ -10,10 +10,12 @@ use Twig\Error\SyntaxError;
 $twig = getTwig();
 $manager = getMongoDbManager();
 $redisClient = getRedisClient();
+$esClient = getElasticSearchClient();
 
 $page = (int)($_GET['page'] ?? "1");
 $cacheKey = "tp_element:{$_GET['id']}";
 $cacheKeyPage = "tp_page:{$page}";
+$indexName = 'books';
 
 $manager->selectCollection('tp')->updateOne(
     [ '_id' => new ObjectId($_GET['id']) ],
@@ -27,6 +29,23 @@ $manager->selectCollection('tp')->updateOne(
         'objectid' => $_POST['objectid'],
     ]]
 );
+
+
+$esClient->update([
+    'index' => $indexName,
+    'id'    => (string) $_GET['id'],
+    'body'  => [
+        'doc' => [
+            'titre'    => $_POST['titre'],
+            'auteur'   => $_POST['auteur'],
+            'siecle'   => $_POST['siecle'],
+            'edition'  => $_POST['edition'],
+            'langue'   => $_POST['langue'],
+            'cote'     => $_POST['cote'],
+            'objectid' => $_POST['objectid'],
+        ]
+    ]
+]);
 
 $redisClient?->setex($cacheKey, 300, json_encode($_POST));
 $redisClient?->del($cacheKeyPage);

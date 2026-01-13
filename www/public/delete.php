@@ -6,6 +6,9 @@ use MongoDB\BSON\ObjectId;
 
 $manager = getMongoDbManager();
 $redisClient = getRedisClient();
+$esClient = getElasticsearchClient();
+
+$indexName = 'books';
 
 $cacheKey = "tp_element:{$_GET['id']}";
 $cacheKeyPage = "tp_page";
@@ -15,6 +18,10 @@ $page = (int)($_GET['page'] ?? "1");
 $manager->selectCollection('tp')->deleteOne(['_id' => new ObjectId($_GET['id'])]);
 $redisClient?->del($cacheKey);
 $redisClient?->del($cacheKeyCount);
+$esClient->delete([
+    'index' =>  $indexName,
+    'id'    => (string) $_GET['id']
+]);
 
 # Dévalider toutes les pages suivantes
 $cursor = 0;
